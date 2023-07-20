@@ -25,9 +25,7 @@ export const fetchPlanets = createAsyncThunk('fetchPlanets', async (_, thunkAPI)
      allresponses.forEach((elem)=>{
       allPlanets.push(elem.results) ;
      })
-     console.log(allPlanets);
      const planetDictionary=allPlanets.flat();
-      console.log(planetDictionary);
       thunkAPI.dispatch(setPlanets(planetDictionary));
     } else if (response.status>=400){
       thunkAPI.dispatch(resetUniverse())

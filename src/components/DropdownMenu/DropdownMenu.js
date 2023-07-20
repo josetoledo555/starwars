@@ -6,32 +6,37 @@
 */
 import React, {useEffect, useState} from 'react';
 import { fetchPeople } from '../../redux/thunk/fetchPeople';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectPlanets, selectPlanet, setSelectedPlanet } from '../../redux/slices/universeSlice';
 
-const DropdownMenu=(props)=>{
-    const [selectedPlanet, setSelectedPlanet] = useState({});
-    const [selectedName, setSelectedName] = useState('');
+const DropdownMenu=()=>{
+    const planetList = useSelector(selectPlanets);
+    const selectedPlanet = useSelector(selectPlanet);
+
+    //const [selectedPlanet, setSelectedPlanet] = useState({});
+    //const [selectedName, setSelectedName] = useState('');
     
     const dispatch = useDispatch();
     const handleSelected = (e)=>{
-        e.preventDefault();
-        setSelectedName(e.target.value)
+       // e.preventDefault();
+//        setSelectedName(e.target.value)
 
-        const planet= props.planetList.filter((elem)=>{return elem.name===e.target.value})
-        setSelectedPlanet(planet[0]);
+        const planet= planetList.find((elem)=>{return elem.name===e.target.value})
+        dispatch(setSelectedPlanet(planet));
+        
     }
 
-    useEffect(()=>{
-         dispatch(fetchPeople(selectedPlanet));      
-    },[selectedName])
+    // useEffect(()=>{
+    //      dispatch(fetchPeople(selectedPlanet));      
+    // },[selectedName])
 
     return (<div>
             <select name="selectedPlanet"
-                value={selectedName}
+                value={selectedPlanet?.name}
                 onChange={handleSelected}
                 >
                 <option value="Select a planet:">Select a planet:</option>
-               {props.planetList.map((planet,i) => <option value={planet.name} key={i}>{planet.name}</option>)} 
+               {planetList.map((planet,i) => <option value={planet.name} key={i}>{planet.name}</option>)} 
             </select>
         </div>)
 }

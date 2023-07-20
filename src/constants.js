@@ -6,6 +6,7 @@ export const PEOPLE_PAGE_LIST="/people/";
 export const INITIAL_UNIVERSE_STATE = {
     error: {},
     planets:[],
+    selectedPlanet:{},
     residents:[]
 };
 

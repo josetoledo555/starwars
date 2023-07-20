@@ -21,7 +21,6 @@ export const fetchPeople = createAsyncThunk('fetchPeople', async (planet, thunkA
        allresponses.forEach((elem)=>{
         residentNames.push(elem.name) ;
        })
-       console.log(residentNames);
        if(residentNames.length>0){
         thunkAPI.dispatch(setError(INITIAL_ERROR_STATE));
         thunkAPI.dispatch(setResidents(residentNames));

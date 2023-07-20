@@ -12,6 +12,9 @@ export const universe = createSlice({
     setPlanets:(state, action)=>{
         state.planets = action.payload;
     },
+    setSelectedPlanet:(state, action)=>{
+      state.selectedPlanet = action.payload;
+    },
     setResidents:(state, action)=>{
       state.residents = action.payload;
     },
@@ -22,8 +25,9 @@ export const universe = createSlice({
   },
 });
 
-export const { resetUniverse, setPlanets, setResidents, setError } =  universe.actions;
+export const { resetUniverse, setPlanets, setResidents, setError, setSelectedPlanet } =  universe.actions;
 export const selectPlanets = (state) => state.universe.planets;
+export const selectPlanet = (state) => state.universe.selectedPlanet;
 export const selectResidents = (state) => state.universe.residents;
 export const selectError = (state) => state.universe.error;
 
