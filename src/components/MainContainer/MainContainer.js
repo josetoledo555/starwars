@@ -3,45 +3,48 @@
     Contains planet dropdown menu and resident List.
 */
 
-import React, { useEffect } from 'react';
-import DropdownMenu from '../DropdownMenu/DropdownMenu';
-import { fetchPlanets } from '../../redux/thunk/fetchPlanets';
-import { selectPlanets, selectResidents, selectError, selectPlanet } from '../../redux/slices/universeSlice';
-import { useDispatch, useSelector } from 'react-redux'
-import imgNotFound from '../../assets/noResidents.jpg'
-import { PeopleList } from '../PeopleList';
+import React, { useEffect } from "react";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import { fetchPlanets } from "../../redux/thunk/fetchPlanets";
+import {
+  selectPlanets,
+  selectError,
+  selectPlanet,
+} from "../../redux/slices/universeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import imgNotFound from "../../assets/noResidents.jpg";
+import { PeopleList } from "../PeopleList/PeopleList";
 
+function MainContainer() {
+  const dispatch = useDispatch();
 
-function MainContainer(){
+  useEffect(() => {
+    dispatch(fetchPlanets(""));
+  }, [dispatch]);
 
-    const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(fetchPlanets(''));
-    },[])
-    const planetList = useSelector(selectPlanets);
-    const selectedPlanet = useSelector(selectPlanet);
-    const error = useSelector(selectError);
+  const planetList = useSelector(selectPlanets);
+  const selectedPlanet = useSelector(selectPlanet);
+  const error = useSelector(selectError);
 
-    // useEffect(()=>{
-    //     if( error.status && error.status!=200){
-    //         //To Do: Replace Alert with Modal & images from ../assets
-    //         alert(error.detail);
-    //     }
-    // },[error]);
-
-    const residentArray = useSelector(selectResidents);
-    const residentList =  Array.isArray(residentArray)?residentArray.map((elem,i)=>{
-        return <li key={i}>{elem}</li>
-    }):null;
-
-    return (<div>
-
-        <div className='whiteText'>STAR WARS UNIVERSE</div>
-        { planetList.length>0?<span className='whiteText'>Go!</span>:<span className='whiteText'>Loading...</span>}
-        <div className='container'><DropdownMenu /></div>
-        {error.status===404?<div><img src={imgNotFound}/></div>:residentList}
-        {selectedPlanet&&<PeopleList/>}
-    </div>)
+  return (
+    <div style={{ display: "flex", flexDirection: "column", padding: "40px" }}>
+      <div className="whiteText">STAR WARS UNIVERSE</div>
+      {planetList.length > 0 ? (
+        <span className="whiteText">Go!</span>
+      ) : (
+        <span className="whiteText">Loading...</span>
+      )}
+      <div className="container">
+        <DropdownMenu />
+      </div>
+      {error.status === 404 && (
+        <div>
+          <img style={{ height: "400px", width: "400px" }} src={imgNotFound} />
+        </div>
+      )}
+      {selectedPlanet && <PeopleList />}
+    </div>
+  );
 }
 
-export default MainContainer
+export default MainContainer;
